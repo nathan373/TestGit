@@ -1,0 +1,192 @@
+{
+	"basePath": "/",
+	"consumes": [
+		"application/json"
+	],
+	"definitions": {
+		"SDSBattery": {
+			"description": "Created by vdave on 12/8/2016.",
+			"properties": {
+				"dev_id": {
+					"type": "string",
+					"description": ""
+				},
+				"server_time_stamp": {
+					"format": "date-time",
+					"type": "string",
+					"description": ""
+				},
+				"int_value": {
+					"format": "int64",
+					"type": "integer",
+					"description": ""
+				},
+				"stat_type": {
+					"format": "int64",
+					"type": "integer",
+					"description": ""
+				},
+				"time_stamp": {
+					"format": "date-time",
+					"type": "string",
+					"description": ""
+				}
+			},
+			"required": [
+				"dev_id",
+				"server_time_stamp",
+				"int_value",
+				"stat_type",
+				"time_stamp"
+			],
+			"type": "object"
+		},
+		"SDS": {
+			"description": "",
+			"properties": {
+				"metadata": {
+					"type": "string",
+					"description": ""
+				},
+				"createdAt": {
+					"format": "date-time",
+					"type": "string",
+					"description": ""
+				},
+				"data": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array",
+					"description": ""
+				}
+			},
+			"required": [
+				"metadata",
+				"createdAt"
+			],
+			"type": "object"
+		},
+		"ListBatteryStats": {
+			"description": "",
+			"properties": {
+				"stats": {
+					"items": {
+						"$ref": "#/definitions/SDSBattery"
+					},
+					"type": "array",
+					"description": ""
+				}
+			},
+			"required": [
+				"stats"
+			],
+			"type": "object"
+		}
+	},
+	"info": {
+		"description": "This service provides and API to post data to SOTI cloud data analytics service",
+		"license": {
+			"name": "MIT"
+		},
+		"title": "IDA",
+		"version": "0.0.1"
+	},
+	"paths": {
+		"/Devices/Stat": {
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "",
+						"examples": {
+							"application/json": {
+								"headers": {
+									"X-API-key": "Future Private Access Key",
+									"Accept": "application/json"
+								},
+								"json": true,
+								"url": "http://localhost:3003/data",
+								"data": {
+									"dev_id": "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
+									"server_time_stamp": "2016-12-08T19:12:15.235Z",
+									"int_value": 123456789123,
+									"stat_type": 1234,
+									"time_stamp": "2016-12-08T19:13:15.235Z"
+								}
+							}
+						},
+						"schema": {
+							"$ref": "#/definitions/SDS"
+						}
+					}
+				},
+				"description": "Post a unit of data to be stored in the cloud analytics database.\nThis api allows a user to post device data.",
+				"parameters": [
+					{
+						"description": "",
+						"in": "body",
+						"name": "request",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/SDSBattery"
+						}
+					}
+				]
+			}
+		},
+		"/Devices/MultipleStats/MultiplePosts": {
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "",
+						"examples": {
+							"application/json": {
+								"headers": {
+									"X-API-key": "Future Private Access Key",
+									"Accept": "application/json"
+								},
+								"json": true,
+								"url": "http://localhost:3003/data",
+								"data": {
+									"dev_id": "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
+									"server_time_stamp": "2016-12-08T19:12:15.235Z",
+									"int_value": 123456789123,
+									"stat_type": 1234,
+									"time_stamp": "2016-12-08T19:13:15.235Z"
+								}
+							}
+						},
+						"schema": {
+							"$ref": "#/definitions/SDS"
+						}
+					}
+				},
+				"description": "Post a unit of data to be stored in the cloud analytics database",
+				"parameters": [
+					{
+						"description": "",
+						"in": "body",
+						"name": "request",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ListBatteryStats"
+						}
+					}
+				]
+			}
+		}
+	},
+	"produces": [
+		"application/json"
+	],
+	"swagger": "2.0",
+	"host": "localhost:3003"
+}
